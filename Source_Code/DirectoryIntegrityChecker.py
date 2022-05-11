@@ -3,10 +3,10 @@ import os
 
 class DirectoryIntegrityChecker:
 
-    def directory_filetype_checker(self, verbose):
+    def directory_filetype_checker(self, input_directory, verbose):
         if verbose:
             print("DirectoryIntegrityChecker: Running function -> 'directory_filetype_checker' ...")
-        for image in tqdm(os.listdir(self.input_directory)):
+        for image in tqdm(os.listdir(input_directory)):
             if image.endswith(".jpg") or image.endswith(".jpeg") or image.endswith(".png"):
                 continue
             else:
