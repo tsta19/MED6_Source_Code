@@ -5,8 +5,8 @@ from tqdm import tqdm
 
 class Downsampling:
     # folder_dir = "Input_Directory_Portrait"  # image path/directory
-    folder_dir_landscape = "D:/Git_repositoryries/P6ContentAwareEditing/KristianNN/train_landscape"  # image directory
-    folder_dir_portrait = "D:/Git_repositoryries/P6ContentAwareEditing/KristianNN/train_portrait"
+    folder_dir_landscape = "DATA//TRAIN_LANDSCAPE"  # image directory
+    folder_dir_portrait = "DATA//TRAIN_PORTRAIT"
 
     resized_img = []
     recolored_img = []
