@@ -6,7 +6,6 @@ import scipy.misc
 import scipy.cluster
 
 from Downsampling import *
-from EdgeDetection import *
 from FileManager import *
 from ImageProcessing import *
 
@@ -21,7 +20,6 @@ class ThomasMain:
     def __init__(self, images):
         self.images = images
 
-    ed = EdgeDetection()
     fm = FileManager()
     ip = ImageProcessing()
 
@@ -79,5 +77,5 @@ class ThomasMain:
             print("Number of edges list", self.number_of_edges)
             print("Largest edges list", self.largest_edge)
             print("*************************************************") """
-            print("ThomasMain: Function -> 'main' is done")
+            print("ThomasMain: Function -> 'main' Finished.")
         return self.largest_edge, self.number_of_edges

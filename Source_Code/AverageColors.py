@@ -106,7 +106,7 @@ class AverageColors:
             #bgr_img = cv.cvtColor(img, cv.COLOR_HSV2BGR)
             cv.imshow("pixels", img)
             cv.waitKey(0)
-            print("AverageColors: Function -> 'show_image' is done")
+            print("AverageColors: Function -> 'show_image' Finished.")
 
     def main(self, directory, verbose: bool):
         if verbose:
@@ -120,5 +120,5 @@ class AverageColors:
             #self.show_image(img, square_size, averages)
 
         if verbose:
-            print("AverageColors: Function -> 'main' is done")
+            print("AverageColors: Function -> 'main' Finished.")
         return hueFeatureArr

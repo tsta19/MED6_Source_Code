@@ -80,7 +80,7 @@ class KmeansFeature:
                 """ print("Clustered image number: ", index) """
                 
         if verbose:
-            print("KmeansFeature: Function -> 'clustering' is done")
+            print("KmeansFeature: Function -> 'clustering' Finished.")
 
                 # print("Hue clusters for all images, aka. results:", len(self.results), self.results)
         return self.results

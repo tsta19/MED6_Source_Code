@@ -14,3 +14,5 @@ class DirectoryIntegrityChecker:
 
         # If checker verifies integrity of files successfully
         print("Filetype Checker: All images satisfy filetype requirements")
+        if verbose:
+            print("DirectoryIntegrityChecker: Function -> 'directory_filetype_checker' Finished.")

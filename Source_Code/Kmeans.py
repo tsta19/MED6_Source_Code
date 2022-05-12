@@ -25,9 +25,6 @@ class Kmeans:
         # Run kmeans function with 2 defined clusters with ++ initialisation scheme on the featurearray: features
         kmeans = KMeans(n_clusters=2, random_state=0, init="k-means++").fit(np.array(features))
 
-        # Save image to directory
-        print("\n")
-
         # For every image depending on the kmeans.label_ separate them into their respective folders DATA -> SAVE_DIRECTORY -> CLUSTER_GROUP_01 AND 02
         for i, clusterGroup in enumerate(kmeans.labels_):
             print("    Copy: %s / %s" % (i, len(kmeans.labels_)), end="\r")
@@ -41,4 +38,4 @@ class Kmeans:
             else:
                 continue
         if verbose:
-            print("Kmeans: Function -> 'clustering' is done")
+            print("Kmeans: Function -> 'clustering' Finished.")

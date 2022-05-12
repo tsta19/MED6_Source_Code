@@ -29,7 +29,7 @@ def HOG(imageDir, verbose: bool):
 		# axis2.set_title('Histogram of Oriented Gradients')
 		# plt.show()
 	if verbose:
-		print("<NoClass>: Function -> 'HOG' is done")
+		print("<NoClass>: Function -> 'HOG' Finished.")
 	return featureVector
 
 
@@ -61,7 +61,7 @@ def makeImagesGrayscale(imageDir, verbose: bool):
 		grayImage = cv2.cvtColor(imageDir[image], cv2.COLOR_BGR2GRAY)
 		grayImages.append(grayImage)
 	if verbose:
-		print("<NoClass>: Function -> 'makeImagesGrayscale' is done")
+		print("<NoClass>: Function -> 'makeImagesGrayscale' Finished.")
 	return grayImages
 
 
@@ -75,7 +75,7 @@ def rescale_image(imageDir, verbose: bool, res_x=128, res_y=64, ):
 		rescaled_image = cv2.cvtColor(rescaled_image, cv2.COLOR_BGR2RGB)
 		rscImages.append(rescaled_image)
 	if verbose:
-		print("<NoClass>: Function -> 'rescale_image' is done")
+		print("<NoClass>: Function -> 'rescale_image' Finished.")
 	return rscImages
 
 

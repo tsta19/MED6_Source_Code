@@ -29,7 +29,7 @@ class FileRenamer:
             if verbose:
                 print(f"Renamed Image: {image} / {len(self.input_directory)}", end="\r")
         if verbose:
-            print("FileRenamer: Function -> 'rename_files' is done")
+            print("FileRenamer: Function -> 'rename_files' Finished.")
 """ 
 if __name__ == '__main__':
     fileRenamer = FileRenamer("Images_To_Rename", "Images_After_Rename")

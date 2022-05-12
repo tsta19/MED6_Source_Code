@@ -5,6 +5,7 @@ from tqdm import tqdm
 
 class Downsampling:
     # folder_dir = "Input_Directory_Portrait"  # image path/directory
+    # All directories for images
     folder_dir_landscape = "Source_Code//DATA//TRAIN_LANDSCAPE"  # image directory
     folder_dir_portrait = "Source_Code//DATA//TRAIN_PORTRAIT"
     folder_dir_both = "Source_Code//DATA//DATA_BOTH"
@@ -16,11 +17,12 @@ class Downsampling:
     def import_images(self, verbose: bool):
         if verbose:
             print("Downsampling: Running function -> 'import_images' ...")
+
         original_img = []
-        # print("Importing images...")
-        # print("Importing from directory: ", os.listdir(self.folder_dir))
+        # Define the input directory where the images to import are
         dir_both = os.listdir(self.folder_dir_both)
 
+        # Loop over images in above directory and read them, afterwards append them to an array that stores them all
         for index in range(0, len(dir_both)):
             if verbose:
                 print(f"Imported Image: {dir_both[index]} / {len(dir_both)}", end="\r")
@@ -32,10 +34,12 @@ class Downsampling:
                     print(f"Imported Image Error: {dir_both[index]} / {len(dir_both)}", end="\r")
 
         if verbose:
-            print("Downsampling: Function -> 'import_images' is done")
+            print("Downsampling: Function -> 'import_images' Finished.")
 
         return original_img
 
+    # Rescaling function, rescales image to the defined dimensions (width, height) it focuses on getting the center of the image, so it
+    # rescales within the center boundaries of the image
     def rescale_images(self, verbose):
         if verbose:
             print("Downsampling: Running function -> 'rescale_images' ...")
@@ -69,7 +73,7 @@ class Downsampling:
             self.resized_img.append(img)
 
         if verbose:
-            print("Downsampling: Function -> 'rescale_images' is done")
+            print("Downsampling: Function -> 'rescale_images' Finished.")
 
         return self.resized_img
 
@@ -123,10 +127,11 @@ class Downsampling:
             self.recolored_img.append(img)
 
         if verbose:
-            print("Downsampling: Function -> 'recolor_images' is done")
+            print("Downsampling: Function -> 'recolor_images' Finished.")
 
         return self.recolored_img
 
+    # Simple rescale function for an individual image, it simply rescales it to the res_x and res_y dimensions.
     def rescale_image(self, image, res_x, res_y, verbose):
         if verbose:
             print("Downsampling: Running function -> 'rescale_image' ...")
@@ -134,9 +139,10 @@ class Downsampling:
         rescaled_image = cv.resize(image, rescale_dimensions, interpolation=cv.INTER_AREA)
         rescaled_image = cv.cvtColor(rescaled_image, cv.COLOR_BGR2RGB)
         if verbose:
-            print("Downsampling: Function -> 'rescale_image' is done")
+            print("Downsampling: Function -> 'rescale_image' Finished.")
         return rescaled_image
 
+    # Uses built-in opencv function to convert the image from BGR color psace to HSV color space
     def BGR2HSV(self, verbose):
         if verbose:
             print("Downsampling: Running function -> 'BGR2HSV' ...")
@@ -147,9 +153,10 @@ class Downsampling:
             img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
             self.HSV_img.append(img)
         if verbose:
-            print("Downsampling: Function -> 'BGR2HSV' is done")
+            print("Downsampling: Function -> 'BGR2HSV' Finished.")
         return self.HSV_img
 
+    # Sequential execution of all the aforementioned functions
     def hsv_images(self):
         self.import_images()
         self.rescale_images()
