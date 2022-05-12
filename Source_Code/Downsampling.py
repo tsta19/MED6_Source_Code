@@ -5,40 +5,41 @@ from tqdm import tqdm
 
 class Downsampling:
     # folder_dir = "Input_Directory_Portrait"  # image path/directory
-    folder_dir_landscape = "DATA//TRAIN_LANDSCAPE"  # image directory
-    folder_dir_portrait = "DATA//TRAIN_PORTRAIT"
+    folder_dir_landscape = "Source_Code//DATA//TRAIN_LANDSCAPE"  # image directory
+    folder_dir_portrait = "Source_Code//DATA//TRAIN_PORTRAIT"
+    folder_dir_both = "Source_Code//DATA//DATA_BOTH"
 
     resized_img = []
     recolored_img = []
     HSV_img = []
 
-    def import_images(self):
+    def import_images(self, verbose: bool):
+        if verbose:
+            print("Downsampling: Running function -> 'import_images' ...")
         original_img = []
         # print("Importing images...")
         # print("Importing from directory: ", os.listdir(self.folder_dir))
-        dir_landscape = os.listdir(self.folder_dir_landscape)
-        dir_portrait = os.listdir(self.folder_dir_portrait)
+        dir_both = os.listdir(self.folder_dir_both)
 
-        for index in tqdm(range(0, len(dir_landscape))):
-            print("This img: ", self.folder_dir_landscape + "\\" + dir_landscape[index], end="\r")
-            img = cv.imread(self.folder_dir_landscape + "\\" + dir_landscape[index])
+        for index in range(0, len(dir_both)):
+            if verbose:
+                print(f"Imported Image: {dir_both[index]} / {len(dir_both)}", end="\r")
+            img = cv.imread(self.folder_dir_both + "//" + dir_both[index])
             if img is not None:
                 original_img.append(img)
+            else:
+                if verbose:
+                    print(f"Imported Image Error: {dir_both[index]} / {len(dir_both)}", end="\r")
 
-        n_landscape_photos = len(original_img)
-        print("Number of landscape photos:", n_landscape_photos)
-
-        for index in tqdm(range(0, len(dir_portrait))):
-            print("This img: ", self.folder_dir_portrait + "\\" + dir_portrait[index], end="\r")
-            img = cv.imread(self.folder_dir_portrait + "\\" + dir_portrait[index])
-            if img is not None:
-                original_img.append(img)
-        print("Number of portraits:", len(original_img)-n_landscape_photos)
+        if verbose:
+            print("Downsampling: Function -> 'import_images' is done")
 
         return original_img
 
-    def rescale_images(self):
-        original_img = self.import_images()
+    def rescale_images(self, verbose):
+        if verbose:
+            print("Downsampling: Running function -> 'rescale_images' ...")
+        original_img = self.import_images(True)
         # new image dimensions
         width = 64
         height = 64
@@ -67,10 +68,14 @@ class Downsampling:
             img = cv.resize(img, dimensions, interpolation=cv.INTER_AREA)
             self.resized_img.append(img)
 
+        if verbose:
+            print("Downsampling: Function -> 'rescale_images' is done")
+
         return self.resized_img
 
-    def recolor_images(self):
-
+    def recolor_images(self, verbose):
+        if verbose:
+            print("Downsampling: Running function -> 'recolor_images' ...")
         for img in self.resized_img:
             height = img.shape[0]
             width = img.shape[1]
@@ -117,23 +122,32 @@ class Downsampling:
 
             self.recolored_img.append(img)
 
+        if verbose:
+            print("Downsampling: Function -> 'recolor_images' is done")
+
         return self.recolored_img
 
-    def rescale_image(self, image, res_x, res_y):
+    def rescale_image(self, image, res_x, res_y, verbose):
+        if verbose:
+            print("Downsampling: Running function -> 'rescale_image' ...")
         rescale_dimensions = (res_y, res_x)
         rescaled_image = cv.resize(image, rescale_dimensions, interpolation=cv.INTER_AREA)
         rescaled_image = cv.cvtColor(rescaled_image, cv.COLOR_BGR2RGB)
+        if verbose:
+            print("Downsampling: Function -> 'rescale_image' is done")
         return rescaled_image
 
-    def BGR2HSV(self):
-
+    def BGR2HSV(self, verbose):
+        if verbose:
+            print("Downsampling: Running function -> 'BGR2HSV' ...")
         for img in self.resized_img:
             # convert to HSV:
             # In OpenCV, Hue has values from 0 to 180, Saturation and Value from 0 to 255.
             # Thus, OpenCV uses HSV ranges between (0-180, 0-255, 0-255)
             img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
             self.HSV_img.append(img)
-
+        if verbose:
+            print("Downsampling: Function -> 'BGR2HSV' is done")
         return self.HSV_img
 
     def hsv_images(self):

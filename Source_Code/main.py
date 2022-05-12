@@ -1,3 +1,4 @@
+from tkinter.tix import Tree
 from Downsampling import *
 from AverageColors import *
 from KmeansFeature import *
@@ -8,7 +9,6 @@ from CornerDetection import *
 from FileManager import *
 from Normalize import *
 from HOG import *
-import math
 
 if __name__ == '__main__':
     # Class Instantiations
@@ -16,39 +16,39 @@ if __name__ == '__main__':
 
     # Import images, rescale, convert to HSV
     images = Downsampling()
-    img = images.rescale_images()
-    hsvImg = images.BGR2HSV()
+    img = images.rescale_images(verbose=True)
+    hsvImg = images.BGR2HSV(verbose=True)
 
     # Calculate average colors
     avg = AverageColors()
-    avgHue = avg.main(hsvImg)
+    avgHue = avg.main(hsvImg, verbose=True)
 
     # Cluster hue values in images, aka. dominant colours
     kmeans = KmeansFeature(hsvImg)
-    dominantColours = kmeans.clustering()
+    dominantColours = kmeans.clustering(verbose=True)
 
     # Edge detection x2
     canny = ThomasMain(img)  # return self.largest_edge, self.number_of_edges
-    largest_edge, number_of_edges = canny.main(False)  # return self.largest_edge, self.number_of_edges
+    largest_edge, number_of_edges = canny.main(verbose=True)  # return self.largest_edge, self.number_of_edges
 
     # Corner detection x2
     corner = CornerDetection(img)
-    corner_data, cornerBoxData = corner.main()
+    corner_data, cornerBoxData = corner.main(verbose=True)
 
     # HOG feature
-    hogs = HOG(img)
+    hogs = HOG(img, verbose=True)
 
     # Normalise the data and create an array of features
     normalize = Normalize(dominantColours, avgHue, largest_edge, number_of_edges, corner_data, cornerBoxData, hogs)
     feature_array = normalize.merge_data(img)
-    print("feature_array", feature_array)
+    # print("feature_array", feature_array)
 
     # Cluster images based on edges and hue
     #db = DBscan()
     #db.classify(feature_array)
 
     kmeans_cluster = Kmeans()
-    kmeans_cluster.clustering(feature_array, img)
+    kmeans_cluster.clustering(feature_array, img, verbose=True)
 
     print("*************************************************")
     print("Five most dominant colours", dominantColours)

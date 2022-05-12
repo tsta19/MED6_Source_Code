@@ -12,21 +12,33 @@ class CornerDetection:
     def __init__(self, images):
         self.images = images
 
-    def makeImagesGrayscale(self, imageDir):
+    def makeImagesGrayscale(self, imageDir, verbose: bool):
+        if verbose:
+            print("CornerDetection: Running function -> 'makeImagesGrayscale' ...")
         grayImages = []
         for image in imageDir:
             grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             grayImages.append(grayImage)
+        if verbose:
+            print("CornerDetection: Function -> 'makeImagesGrayscale' is done")
         return grayImages
 
-    def doGausBlur(self, imageDir):
+    def doGausBlur(self, imageDir, verbose: bool):
+        if verbose:
+            print("CornerDetection: Running function -> 'doGausBlur' ...")
+
         gausImages = []
         for image in imageDir:
             gausImg = cv2.GaussianBlur(src=image, ksize=(5, 5), sigmaX=0, sigmaY=0)
             gausImages.append(gausImg)
+
+        if verbose:
+            print("CornerDetection: Function -> 'doGausBlur' is done")
         return gausImages
 
-    def getAllCorners(self, imageDir):
+    def getAllCorners(self, imageDir, verbose: bool):
+        if verbose:
+            print("CornerDetection: Running function -> 'getAllCorners' ...")
         n_corners = []
         n_withinBox = []
         n_filterConers = []
@@ -52,9 +64,14 @@ class CornerDetection:
             n_corners.append([len(corners)])
 
         # print("n_corners", n_corners)
+        if verbose:
+            print("CornerDetection: Function -> 'getAllCorners' is done")
+
         return n_corners, n_withinBox
 
-    def cornerDetection(self, imageDir):
+    def cornerDetection(self, imageDir, verbose: bool):
+        if verbose:
+            print("CornerDetection: Running function -> 'cornerDetection' ...")
         blurIMG = self.doGausBlur(imageDir)
         preProcIMG = self.makeImagesGrayscale(blurIMG)
         imageDir = preProcIMG
@@ -86,17 +103,23 @@ class CornerDetection:
 
             cornerImages.append(canny)
         # print("Corners: ", len(cornerCountArray), cornerCountArray)
-        return cornerCountArray, cornerImages
+        if verbose:
+            print("CornerDetection: Function -> 'cornerDetection' is done")
 
+        return cornerCountArray, cornerImages
         # i, j = (canny > 200).nonzero()
         # vals = image[x, y]
 
-    def main(self):
-        blurImg = self.doGausBlur(self.images)
-        preProcessImg = self.makeImagesGrayscale(blurImg)
+    def main(self, verbose: bool):
+        if verbose:
+            print("CornerDetection: Running function -> 'main' ...")
+        blurImg = self.doGausBlur(self.images, verbose=True)
+        preProcessImg = self.makeImagesGrayscale(blurImg, verbose=True)
         # cornerIMG = self.cornerDetection(preProcessImg)  # Nogle hjørner
-        corners, cornerBoxed = self.getAllCorners(preProcessImg)  # Mega mange hjørner
+        corners, cornerBoxed = self.getAllCorners(preProcessImg, verbose=True)  # Mega mange hjørner
         # print("Corners.......", corners)
+        if verbose:
+            print("CornerDetection: Function -> 'main' is done")
         return corners, cornerBoxed
 
     # for image in cornerIMG:
@@ -111,12 +134,14 @@ class CornerDetection:
     # cv2.waitKey(0)
 
 
-def makeImageFolder():
+def makeImageFolder(verbose: bool):
+    if verbose:
+        print("CornerDetection: Running function -> 'makeImageFolder' ...")
     path = os.getcwd()
     path = path + '\\Input_Directory_Landscape'
-    print('her er path: ', path)
+    """ print('her er path: ', path) """
     pathDir = os.listdir(path)
-    print('her er directory: ', pathDir)
+    """ print('her er directory: ', pathDir) """
     imagess = []
 
     for image in range(0, len(pathDir)):
@@ -128,32 +153,41 @@ def makeImageFolder():
         temp = cv2.imread(str(path) + '\\' + str(pathDir[image]), cv2.IMREAD_COLOR)
         imagess.append(temp)
 
+    if verbose:
+        print("CornerDetection: Function -> 'makeImageFolder' is done")
+
     return imagess
 
 
-def rescale_image(imageDir, res_x, res_y):
+def rescale_image(imageDir, res_x, res_y, verbose: bool):
+    if verbose:
+        print("CornerDetection: Running function -> 'rescale_image' ...")
+
     rscArray = []
     for image in imageDir:
         rescale_dimensions = (res_y, res_x)
         rescaled_image = cv2.resize(image, rescale_dimensions, interpolation=cv2.INTER_AREA)
         rescaled_image = cv2.cvtColor(rescaled_image, cv2.COLOR_BGR2RGB)
         rscArray.append(rescaled_image)
+
+    if verbose:
+        print("CornerDetection: Function -> 'rescale_image' is done")
     return rscArray
 
 
 if __name__ == "__main__":
-    images = makeImageFolder()
-    scaleIMG = rescale_image(images[0:20], 256, 256)
+    images = makeImageFolder(verbose=True)
+    scaleIMG = rescale_image(images[0:20], 256, 256, verbose=True)
     corners = CornerDetection(scaleIMG)
-    preProcsIMG = corners.makeImagesGrayscale(corners.doGausBlur(scaleIMG))
-    cornerCount, withinBoxCntPRCNT = corners.getAllCorners(preProcsIMG)
+    preProcsIMG = corners.makeImagesGrayscale(corners.doGausBlur(scaleIMG, verbose=True), verbose=True)
+    cornerCount, withinBoxCntPRCNT = corners.getAllCorners(preProcsIMG, verbose=True)
 
-    print(f'Amount of corners: {cornerCount}')
+    """ print(f'Amount of corners: {cornerCount}')
     print("_____________________________")
-    print(f'Corner% within Bbox: {withinBoxCntPRCNT}')
+    print(f'Corner% within Bbox: {withinBoxCntPRCNT}') """
     # print("_____________________________")
     # print(f'Coners within Bbox: {withinBoxCnt}')
 
-    for image in preProcsIMG:
+    """ for image in preProcsIMG:
         cv2.imshow("cornerIMG", image)
-        cv2.waitKey(0)
+        cv2.waitKey(0) """

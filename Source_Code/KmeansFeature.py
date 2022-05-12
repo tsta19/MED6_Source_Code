@@ -20,7 +20,9 @@ class KmeansFeature:
     def __init__(self, images):
         self.data = images
 
-    def clustering(self):
+    def clustering(self, verbose: bool):
+        if verbose:
+            print("KmeansFeature: Running function -> 'clustering' ...")
         # Number of clusters
         clusters = KMeans(n_clusters=5)
         index = 0
@@ -61,10 +63,10 @@ class KmeansFeature:
             self.results.append(hue_values)
 
             # Debugging:
-            if self.debug:
+            if verbose:
                 # Print results
-                print("Cluster centers: \n", clusters.cluster_centers_)
-                print("Most dominant hue values", self.results)
+                """ print("Cluster centers: \n", clusters.cluster_centers_)
+                print("Most dominant hue values", self.results) """
 
                 # Show image and corresponding palette
                 img = cv.cvtColor(img, cv.COLOR_HSV2BGR)
@@ -75,7 +77,10 @@ class KmeansFeature:
                 # cv.waitKey(0)
                 # cv.destroyAllWindows()
                 index += 1
-                print("Clustered image number: ", index)
+                """ print("Clustered image number: ", index) """
+                
+        if verbose:
+            print("KmeansFeature: Function -> 'clustering' is done")
 
                 # print("Hue clusters for all images, aka. results:", len(self.results), self.results)
         return self.results

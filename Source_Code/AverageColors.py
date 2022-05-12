@@ -4,10 +4,10 @@ import numpy as np
 
 class AverageColors:
 
-    debug = False
-
     # Calculate mean values for the R, G, and B colour channels
-    def mean_values(self, img, square_size):
+    def mean_values(self, img, square_size, verbose: bool):
+        if verbose:
+            print("AverageColors: Running function -> 'mean_values' ...")
         hue = []
         sat = []
         val = []
@@ -60,18 +60,20 @@ class AverageColors:
                 val.append(img[y, x][2])
 
 
-        if self.debug == True:
-            print(count)
+        if verbose:
+            """ print(count)
             print(len(averages))
-            print("All averages:", averages)
+            print("All averages:", averages) """
             #bgr_img = cv.cvtColor(img, cv.COLOR_HSV2BGR)
-            cv.imshow("img", img)
-            cv.waitKey(0)
+            """ cv.imshow("img", img)
+            cv.waitKey(0) """
+            print("AverageColors: Function -> 'mean_values' is done")
 
         return averages, hue_averages
 
-    def show_image(self, img, square_size, averages):
-
+    def show_image(self, img, square_size, averages, verbose: bool):
+        if verbose:
+            print("AverageColors: Running function -> 'show_image' ...")
         yStart = 0
         yStop = square_size
 
@@ -100,18 +102,23 @@ class AverageColors:
             yStart += square_size
             yStop += square_size
 
-        if self.debug == True:
-            print(count)
+        if verbose:
             #bgr_img = cv.cvtColor(img, cv.COLOR_HSV2BGR)
             cv.imshow("pixels", img)
             cv.waitKey(0)
+            print("AverageColors: Function -> 'show_image' is done")
 
-    def main(self, directory):
+    def main(self, directory, verbose: bool):
+        if verbose:
+            print("AverageColors: Running function -> 'main' ...")
+
         square_size = 8
         hueFeatureArr = []
         for img in directory:
-            averages, hueAvg = self.mean_values(img, square_size)
+            averages, hueAvg = self.mean_values(img, square_size, verbose=False)
             hueFeatureArr.append(hueAvg)
             #self.show_image(img, square_size, averages)
 
+        if verbose:
+            print("AverageColors: Function -> 'main' is done")
         return hueFeatureArr

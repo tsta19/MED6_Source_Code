@@ -29,6 +29,8 @@ class ThomasMain:
     number_of_edges = []
 
     def main(self, verbose: bool):
+        if verbose:
+            print("ThomasMain: Running function -> 'main' ...")
         # Paths for directories
         cca_directory = "images/cca_directory"
         image_arrays_directory = "images/image_arrays"
@@ -55,26 +57,27 @@ class ThomasMain:
             # self.fm.save_image(cca_directory, contourImg, "contour", index)
 
             if verbose:
-                print("=======================================================================")
+               """  print("=======================================================================")
                 print(pixel_groups)
                 print("Number of Edge Groups: " + str(num_edge_groups))
-                print("Largest Connected Edge (px): " + str(largest_connected_edge))
+                print("Largest Connected Edge (px): " + str(largest_connected_edge)) """
             dom_color, hex = self.ip.most_frequent_color(cca)
             pixels = np.sum(np.all(cca == [round(dom_color[0]), round(dom_color[1]), round(dom_color[2])], axis=2))
             if verbose:
-                print("R:", round(dom_color[0]), " || " "G:", round(dom_color[1]), " || " "B:", round(dom_color[2]))
-                print("Pixel occurrences of RGB:", pixels)
+                """ print("R:", round(dom_color[0]), " || " "G:", round(dom_color[1]), " || " "B:", round(dom_color[2]))
+                print("Pixel occurrences of RGB:", pixels) """
             unique, counts = np.unique(cca, return_counts=True)
             if verbose:
-                print(dict(zip(unique, counts)))
+                """ print(dict(zip(unique, counts))) """
             index += 1
 
             self.largest_edge.append([largest_connected_edge])
             self.number_of_edges.append([num_edge_groups])
 
         if verbose:
-            print("*************************************************")
+            """ print("*************************************************")
             print("Number of edges list", self.number_of_edges)
             print("Largest edges list", self.largest_edge)
-            print("*************************************************")
+            print("*************************************************") """
+            print("ThomasMain: Function -> 'main' is done")
         return self.largest_edge, self.number_of_edges
