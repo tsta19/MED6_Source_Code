@@ -1,6 +1,7 @@
 import os
 import numpy as np
 from scipy import stats as st
+import matplotlib.pyplot as plt
 
 def getDistribution(data):
     # The three-sigma-rule
@@ -44,28 +45,34 @@ if __name__ == "__main__":
     print(directory)
 
     landSwapFile = open(path + '//' + directory[0], 'r')
-    landSwapRes = landSwapFile.read()
-    landSwapRes = [abs(float(i)) for i in landSwapRes.split()]
+    landSwapRes1 = landSwapFile.read()
+    landSwapRes = [abs(float(i)) for i in landSwapRes1.split()]
+    landSwapHist = [float(i) for i in landSwapRes1.split()]
 
     landOldFile = open(path + '//' + directory[1], 'r')
-    landOldRes = landOldFile.read()
-    landOldRes = [abs(float(i)) for i in landOldRes.split()]
+    landOldRes1 = landOldFile.read()
+    landOldRes = [abs(float(i)) for i in landOldRes1.split()]
+    landOldHist = [float(i) for i in landOldRes1.split()]
 
     landNewFile = open(path + '//' + directory[2], 'r')
-    landNewRes = landNewFile.read()
-    landNewRes = [abs(float(i)) for i in landNewRes.split()]
+    landNewRes1 = landNewFile.read()
+    landNewRes = [abs(float(i)) for i in landNewRes1.split()]
+    landNewHist = [float(i) for i in landNewRes1.split()]
 
     portNewFile = open(path + '//' + directory[5], 'r')
-    portNewRes = portNewFile.read()
-    portNewRes = [abs(float(i)) for i in portNewRes.split()]
+    portNewRes1 = portNewFile.read()
+    portNewRes = [abs(float(i)) for i in portNewRes1.split()]
+    portNewHist = [float(i) for i in portNewRes1.split()]
 
     portSwapFile = open(path + '//' + directory[3], 'r')
-    portSwapRes = portSwapFile.read()
-    portSwapRes = [abs(float(i)) for i in portSwapRes.split()]
+    portSwapRes1 = portSwapFile.read()
+    portSwapRes = [abs(float(i)) for i in portSwapRes1.split()]
+    portSwapHist = [float(i) for i in portSwapRes1.split()]
 
     portOldFile = open(path + '//' + directory[4], 'r')
-    portOldRes = portOldFile.read()
-    portOldRes = [abs(float(i)) for i in portOldRes.split()]
+    portOldRes1 = portOldFile.read()
+    portOldRes = [abs(float(i)) for i in portOldRes1.split()]
+    portOldHist = [float(i) for i in portOldRes1.split()]
 
     stDevLandSwap = np.std(landSwapRes)
     stDevLandOld = np.std(landOldRes)
@@ -124,3 +131,11 @@ if __name__ == "__main__":
     statLand, pLand = st.mannwhitneyu(landNewRes, landOldRes)
     print(f'Portrait old vs new:  stat: {statPort}, p: {pPort}')
     print(f'Landscape old vs new: stat: {statLand}, p: {pLand}')
+
+    # this histogram has a range from 1 to 4
+    # and 8 different bins
+    plt.hist(landSwapHist, range=(-0.8, 0.8), bins=30)
+    plt.title('Landscape-based Network with Portrait Test-data')
+    plt.xlabel('Difference from ground truth')
+    plt.ylabel('Occurrences')
+    plt.show()
