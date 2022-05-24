@@ -1,7 +1,10 @@
 import os
 import numpy as np
+import scipy.stats.distributions
 from scipy import stats as st
 import matplotlib.pyplot as plt
+import statsmodels.api as sm
+import pylab
 
 def getDistribution(data):
     # The three-sigma-rule
@@ -139,3 +142,18 @@ if __name__ == "__main__":
     plt.xlabel('Difference from ground truth')
     plt.ylabel('Occurrences')
     plt.show()
+
+    fig, ax = plt.subplots()
+    st.probplot(landNewHist, dist="norm", plot=ax)
+    plt.title('MAD of Landscape Predictions, New Network, against Normal Distribution')
+    plt.show()
+
+    fig1, ax1 = plt.subplots()
+    nplist = np.array(landOldHist)
+    #fig1 = sm.graphics.qqplot(nplist, fit=True, ax=ax1, dist=scipy.stats.distributions.norm, line='q')
+    pp = sm.ProbPlot(nplist, fit=True)
+    qq = pp.qqplot(marker='.', markerfacecolor='k', markeredgecolor='k', alpha=0.3)
+    sm.qqline(qq.axes[0], line='45', fmt='k--')
+    plt.title('MAD of Landscape Predictions, Old Network, against Normal Distribution')
+    plt.show()
+

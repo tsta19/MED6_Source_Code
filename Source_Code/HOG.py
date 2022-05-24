@@ -14,7 +14,7 @@ def HOG(imageDir, verbose: bool):
 		print("<NoClass>: Running function -> 'HOG' ...")
 	featureVector = []
 	for index in range(0, len(imageDir)):
-		fd, hogImage = hog(imageDir[index], pixels_per_cell=(16, 16), cells_per_block=(2, 2), visualize=True,
+		fd, hogImage = hog(imageDir[index], pixels_per_cell=(8, 8), cells_per_block=(2, 2), visualize=True,
 						   multichannel=True, feature_vector=True)
 
 		# fig, (axis1, axis2) = plt.subplots(1, 2, figsize=(8, 4), sharex=True, sharey=True)
